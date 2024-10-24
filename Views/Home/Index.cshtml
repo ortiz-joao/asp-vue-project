@@ -1,0 +1,37 @@
+﻿@section Scripts {
+    <script src="~/js/postcode-app.js"></script>
+}
+
+<div id="postcodeApp">
+    <h2>Customer locations</h2>
+    <div class="chips-container" v-if="postcodes.size > 0">
+    <transition-group name="list">
+        <div v-for="postcode of postcodes" :key="postcode" class="postcode-chip">
+            <span style="margin-right: 16px;">{{ postcode }}</span>
+            <span v-on:click="handle_postcode_delete(postcode)" class="delete-postcode">X</span>
+        </div>
+    </transition-group>
+    </div>
+    
+    <div class="input-container">
+        <input v-on:keyup.enter="handle_text_area" v-model="input" placeholder="Add postcode">
+        <button v-on:click="handle_text_area">add</button>
+    </div>
+
+    <button v-on:click="fetch_postcodes">Search</button>
+
+    <div v-if="error" style="color: red">
+        <p>{{error}}</p>
+    </div>
+    <template v-if="orderedResults.length > 0">
+    <h3>Results:</h3>
+    <div  class="results-container">
+        
+            <transition-group name="list">
+                <result-display v-for="result in orderedResults" :key="result.query" :result="result"/>
+            </transition-group>
+            </ul>
+    </div>
+    </template>
+    
+</div>
