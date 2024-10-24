@@ -21,6 +21,9 @@ input {
   border-radius: 5px;
     padding-left: 16px;
     margin-right: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
 }
 
 html {

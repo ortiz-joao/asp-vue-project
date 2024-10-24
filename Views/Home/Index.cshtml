@@ -13,9 +13,10 @@
     </transition-group>
     </div>
     
+    <label for="postcodes">Postcodes</label>
     <div class="input-container">
-        <input v-on:keyup.enter="handle_text_area" v-model="input" placeholder="Add postcode">
-        <button v-on:click="handle_text_area">add</button>
+        <input v-on:keyup.enter="handle_text_area" v-model="input" id="postcodes" placeholder="N76RS, SW46TA...">
+        <button v-on:click="handle_text_area">Add</button>
     </div>
 
     <button v-on:click="fetch_postcodes">Search</button>
@@ -23,6 +24,21 @@
     <div v-if="error" style="color: red">
         <p>{{error}}</p>
     </div>
+    <fieldset >
+    <legend>Filter by distance:</legend>
+    <div>
+        <input type="radio" id="ascending" name="order" value="ascending" v-model="filter"/>
+        <label for="ascending">Ascending</label>
+    </div>
+    <div>
+        <input type="radio" id="descending" name="order" value="descending" v-model="filter"/>
+        <label for="descending">Descending</label>
+    </div>
+    <div>
+        <input type="radio" id="disabled" name="order" value="disabled" v-model="filter"/>
+        <label for="disabled">Disabled</label>
+    </div>
+    </fieldset>
     <template v-if="orderedResults.length > 0">
     <h3>Results:</h3>
     <div  class="results-container">
@@ -33,5 +49,8 @@
             </ul>
     </div>
     </template>
+    <template v-else-if="loading">
+		Loading...
+	</template>
     
 </div>

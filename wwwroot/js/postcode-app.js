@@ -22,7 +22,8 @@ const resultDisplay = {
 createApp({
 	components: {resultDisplay},
 	setup() {
-		const postcodes = ref(new Set()), results = ref([]), error = ref(null), input = ref(""), loading = ref(false)
+		const postcodes = ref(new Set()), results = ref([])
+		const error = ref(null), input = ref(""), loading = ref(false), filter =ref("ascending")
 		const history = localStorage.getItem("history")
 
 		if(history) {
@@ -79,17 +80,28 @@ createApp({
 
 
 		const orderedResults = computed(() => {
-			return results.value.sort((a, b) => {
-				if(a.result && b.result) {
-					return a.result.airport_distance_km - b.result.airport_distance_km
-				} else {
-					return 0
-				}
-				
-			})
+			if(filter.value === 'ascending'){
+				return results.value.sort((a, b) => {
+					if(a.result && b.result) {
+						return a.result.airport_distance_km - b.result.airport_distance_km
+					} else {
+						return 0
+					}
+				})
+			}else if(filter.value === "descending") {
+				return results.value.sort((a, b) => {
+					if(a.result && b.result) {
+						return b.result.airport_distance_km - a.result.airport_distance_km 
+					} else {
+						return 0
+					}
+				})
+			} 
+			return results.value
+			
 		})
 		return {
-			postcodes, input, orderedResults, error, handle_postcode_delete, fetch_postcodes, handle_text_area
+			postcodes, input, orderedResults, error, handle_postcode_delete, fetch_postcodes, handle_text_area, filter
 		}
 	}
 }).mount("#postcodeApp")
